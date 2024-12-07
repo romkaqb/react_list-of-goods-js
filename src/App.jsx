@@ -21,7 +21,10 @@ export const App = () => {
   const [actions, setActions] = useState({ sort: null, reversed: false });
 
   const SortA = () => {
-    const sorted = [...visibleGoods].sort((good1, good2) => good1.localeCompare(good2));
+    const sorted = [...visibleGoods].sort((good1, good2) => {
+      return good1.localeCompare(good2);
+    });
+
     setVisibleGoods(actions.reversed ? sorted.reverse() : sorted);
     setActions({ sort: 'alphabetical', reversed: actions.reversed });
   };
@@ -29,17 +32,21 @@ export const App = () => {
   const SortByLength = () => {
     const sorted = [...visibleGoods].sort((good1, good2) => {
       const lengthComparison = good1.length - good2.length;
+
       if (lengthComparison === 0) {
         return good1.localeCompare(good2);
       }
+
       return lengthComparison;
     });
+
     setVisibleGoods(actions.reversed ? sorted.reverse() : sorted);
     setActions({ sort: 'length', reversed: actions.reversed });
   };
 
   const Reverse = () => {
     const reversed = [...visibleGoods].reverse();
+
     setVisibleGoods(reversed);
     setActions({ sort: actions.sort, reversed: !actions.reversed });
   };
@@ -56,7 +63,9 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info', { 'is-light': actions.sort !== 'alphabetical' })}
+          className={cn('button is-info', {
+            'is-light': actions.sort !== 'alphabetical',
+          })}
           onClick={SortA}
         >
           Sort alphabetically
@@ -64,7 +73,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn('button is-success', { 'is-light': actions.sort !== 'length' })}
+          className={cn('button is-success', {
+            'is-light': actions.sort !== 'length',
+          })}
           onClick={SortByLength}
         >
           Sort by length
@@ -90,11 +101,10 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good) => (
+        {visibleGoods.map(good => (
           <li data-cy="Good">{good}</li>
         ))}
       </ul>
     </div>
   );
 };
-
